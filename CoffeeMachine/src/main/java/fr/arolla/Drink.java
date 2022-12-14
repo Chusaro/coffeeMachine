@@ -6,9 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum Drink {
-	TEA("T"), COFFEE("C"), CHOCOLATE("H");
+	TEA("T", 0.4f), COFFEE("C", 0.6f), CHOCOLATE("H", 0.5f);
 
 	private String drinkCode;
 
-
+	private float price;
 }

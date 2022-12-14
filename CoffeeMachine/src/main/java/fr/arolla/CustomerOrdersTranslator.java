@@ -7,14 +7,22 @@ public class CustomerOrdersTranslator {
 	public static final String ZERO_STICK = "0";
 
 	public static String renderOrder(final Order order) {
+		if (notEnoughMoneyprovided(order)) {
+			return String.format(order.getMoneyMissingMessage(), order.getMoneyMissing());
+		}
 		return String.format("%s:%s:%s", order.getDrink().getDrinkCode(), getSugarNumberString(order), getStickString(order));
 	}
 
-	private static String getSugarNumberString(final Order order) {
-		return order.getSugarNumber() > 0 ? String.valueOf(order.getSugarNumber()) : StringUtils.EMPTY;
+	private static boolean notEnoughMoneyprovided(final Order order) {
+		return order.getMoney() < order.getDrink().getPrice();
 	}
 
+	private static String getSugarNumberString(final Order order) {
+		return order.sugarAsked() ? String.valueOf(order.getSugarNumber()) : StringUtils.EMPTY;
+	}
+
+
 	private static String getStickString(final Order order) {
-		return order.getSugarNumber() > 0 ? ZERO_STICK : StringUtils.EMPTY;
+		return order.sugarAsked() ? ZERO_STICK : StringUtils.EMPTY;
 	}
 }
