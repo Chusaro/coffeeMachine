@@ -10,7 +10,7 @@ public class CustomerOrdersTranslatorTest {
 
 	@BeforeAll
 	static void init() {
-		order = new Order();
+		order = new Order(Drink.CHOCOLATE, 0, 0, false);
 
 	}
 
@@ -31,6 +31,11 @@ public class CustomerOrdersTranslatorTest {
 		order.setMoney(Drink.TEA.getPrice());
 		drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
 		Assertions.assertThat(drinkMakerInstruction).isEqualTo("T::");
+
+		order.setDrink(Drink.ORANGE_JUICE);
+		order.setMoney(Drink.ORANGE_JUICE.getPrice());
+		drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
+		Assertions.assertThat(drinkMakerInstruction).isEqualTo("O::");
 	}
 
 	@Test
@@ -59,5 +64,26 @@ public class CustomerOrdersTranslatorTest {
 		order.setMoney(0.2f);
 		String drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
 		Assertions.assertThat(drinkMakerInstruction).isEqualTo("M:You miss 3 cents to receive your drink !");
+	}
+
+	@Test
+	void should_return_extra_hot_drink() {
+		order.setDrink(Drink.CHOCOLATE);
+		order.setSugarNumber(0);
+		order.setMoney(Drink.CHOCOLATE.getPrice());
+		order.setExtraHot(true);
+
+		String drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
+		Assertions.assertThat(drinkMakerInstruction).isEqualTo("Hh::");
+
+		order.setDrink(Drink.COFFEE);
+		order.setMoney(Drink.COFFEE.getPrice());
+		drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
+		Assertions.assertThat(drinkMakerInstruction).isEqualTo("Ch::");
+
+		order.setDrink(Drink.TEA);
+		order.setMoney(Drink.TEA.getPrice());
+		drinkMakerInstruction = CustomerOrdersTranslator.renderOrder(order);
+		Assertions.assertThat(drinkMakerInstruction).isEqualTo("Th::");
 	}
 }

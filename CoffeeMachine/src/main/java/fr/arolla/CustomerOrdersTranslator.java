@@ -10,7 +10,7 @@ public class CustomerOrdersTranslator {
 		if (notEnoughMoneyprovided(order)) {
 			return String.format(order.getMoneyMissingMessage(), order.getMoneyMissing());
 		}
-		return String.format("%s:%s:%s", order.getDrink().getDrinkCode(), getSugarNumberString(order), getStickString(order));
+		return String.format("%s%s:%s:%s", order.getDrink().getDrinkCode(), order.getExtraHotCode(), getSugarNumberString(order), getStickString(order));
 	}
 
 	private static boolean notEnoughMoneyprovided(final Order order) {
